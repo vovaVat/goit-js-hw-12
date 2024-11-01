@@ -9,8 +9,8 @@ const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
 const loader = document.querySelector("#loader");
 const lightbox = new SimpleLightbox('.gallery a');
-const loaderMore= document.querySelector(".loader-more.hidden");
-const loadButton = document.querySelector('.load-button.hidden');
+const loaderMore = document.querySelector(".loader-more");
+const loadButton = document.querySelector('.load-button');
 
 let pageNum = 1;
 let query = "";
@@ -46,7 +46,8 @@ form.addEventListener("submit", event => {
       totalHits = data.totalHits;
       loadedHits = data.hits.length;
 
-      if (data.hits.length === 0) {
+
+      if (totalHits === 0) {
         iziToast.info({
           message: "Sorry, there are no images matching your search query. Please try again!",
           position: 'topRight',
@@ -54,6 +55,7 @@ form.addEventListener("submit", event => {
           color: 'white',
           timeout: 5000,
         });
+        loader.classList.add("hidden");
         return;
       }
 
@@ -81,7 +83,7 @@ form.addEventListener("submit", event => {
 
 loadButton.addEventListener("click", () => {
   loadButton.classList.add("hidden");
-  loaderMore.classList.remove("hidden")
+  loaderMore.classList.remove("hidden");
 
   makeHTTPResponse(query, pageNum)
     .then(data => {
@@ -102,13 +104,22 @@ loadButton.addEventListener("click", () => {
       lightbox.refresh();
     })
     .catch(error => {
-
+      iziToast.error({
+        message: 'Error loading more images. Please try again later.',
+        position: 'topRight',
+        backgroundColor: '#FF0000',
+        color: 'white',
+        timeout: 5000,
+      });
     })
-    .finally(() =>{
-      const rect= document.querySelector(".gallery-item").getBoundingClientRect().height;
+    .finally(() => {
       loaderMore.classList.add("hidden");
-      if (loadedHits < totalHits){
+
+      if (loadedHits < totalHits) {
         loadButton.classList.remove("hidden");
+
+        const rect = document.querySelector(".gallery-item")?.getBoundingClientRect().height || 100;
+
         window.scrollBy({
           top: rect * 2,
           left: 0,

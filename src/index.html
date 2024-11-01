@@ -5,18 +5,26 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vanilla App Template</title>
-    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Protest+Strike&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
+      <div>
+        <form class="search-form">
+          <input type="text" placeholder="Search images..." class="input">
+          <button type="submit" class="submit-button">Search</button>
+        </form>
+      </div>
 
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
-    </main>
+      <div id="loader" class="loader hidden">Loading images, please wait...</div>
 
-    <load src="./partials/footer.html" />
+      <div class="gallery"></div>
+
+      <button class="load-button hidden">Load more</button>
+      <p class="loader-more hidden">Loading images, please wait...</p>
 
     <script type="module" src="./main.js"></script>
   </body>
